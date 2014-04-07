@@ -1,0 +1,99 @@
+﻿@model BM.Web.ViewModels.LoginViewModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<!--[if lt IE 7]>
+  <html class="lt-ie9 lt-ie8 lt-ie7" lang="en">
+<![endif]-->
+<!--[if IE 7]>
+  <html class="lt-ie9 lt-ie8" lang="en">
+<![endif]-->
+<!--[if IE 8]>
+  <html class="lt-ie9" lang="en">
+<![endif]-->
+<!--[if gt IE 8]>
+  <!-->
+<html lang="en">
+<!--
+<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <title>ISys Consultancy Admin</title>
+    <meta content="width=device-width, initial-scale=1.0, user-scalable=no" name="viewport">
+    <script src="/assets/js/html5-trunk.js"></script>
+    <link href="/assets/icomoon/style.css" rel="stylesheet">
+    <!--[if lte IE 7]>
+    <script src="css/icomoon-font/lte-ie7.js"></script>
+    <![endif]-->
+    <!-- bootstrap css -->
+    <link href="/assets/css/main.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span4 offset4">
+                <div class="signin">
+                    <h2 class="center-align-text">ISys Admin</h2>
+                    <div class="form-content">
+                        @{AjaxOptions ajaxOpts = new AjaxOptions
+                          {
+                              HttpMethod = "POST",
+                              UpdateTargetId = "form-content",
+                              OnBegin = "OnBegin",
+                              OnFailure = "OnFailure",
+                              OnSuccess = "OnSuccess",
+                              OnComplete = "OnComplete"
+                          };
+                        using (Ajax.BeginForm("Index", "Home", ajaxOpts, new { @class = "signin-wrapper" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <div id="message"></div>
+                            <div class="content">
+                                @Html.TextBoxFor(U => U.UserName, new { @class = "input input-block-level", placeholder = "Username" })
+                                @Html.PasswordFor(U => U.Password, new { @class = "input input-block-level", placeholder = "Password" })
+                            </div>
+                            <div class="actions">
+                                <input class="btn btn-primary pull-right" type="submit" value="Login">
+                                @*<span class="checkbox-wrapper">
+                                        <a href="/controlpanel/settings" class="pull-left">Control Panel</a>
+                                    </span>*@
+                                <div class="clearfix"></div>
+                            </div>
+                        }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryajaxval")
+    @Scripts.Render("~/bundles/bootstrap")
+    <script type="text/javascript">
+        function OnBegin() {
+            jQuery('#message').html('');
+        }
+        function OnSuccess(data) {
+           // var obj = JSON.parse(data);
+            if (data.Status.Code == 200) {
+                showMessage('success', '', "LogIn Successfully Redirecting....");
+                window.location.href = '@Url.Action("Index", "Dashboard")';
+            }
+            else
+                showMessage('error', 'Error!', data.Status.Message + ' ' + data.Status.Code);
+        }
+        function OnFailure(request, error) {
+           showMessage('error', 'Error', error);
+        }
+        function OnComplete(request, status) {
+           // showMessage('success', 'Success', status);
+        }
+
+        function showMessage(messageType, title, message) {
+            jQuery('#message').append( '<div class="alert alert-block alert-' + messageType + ' fade in"><button type="button" class="close" data-dismiss="alert">×</button><h4 class="alert-heading">' + title + '</h4><p>' +String( message) + '</p></div>');
+            return message;
+        }
+    </script>
+</body>
+</html>

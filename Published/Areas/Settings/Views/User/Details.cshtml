@@ -1,0 +1,71 @@
+﻿@model PharmaReport.Models.UserProfile
+@section TitleSection{ User Details }
+<ul id="crumbs">
+    <li>@Html.ActionLink("Home", "Index", "Account") </li>
+    <li>@Html.ActionLink("Manage Users", "Index", "User") </li>
+    <li>User Details</li>
+</ul>
+<div class="contentWrapper">
+    <div class="full-page-form  formdetails">
+            <div class="editor-field">
+                @Html.LabelFor(model => model.UserName)
+                @Html.DisplayFor(model => model.UserName)                
+            </div>
+            <div class="editor-field">
+                @Html.LabelFor(model => model.Email)
+                @Html.DisplayFor(model => model.Email)    
+            </div>
+            <div class="clear"></div>
+            <div class="editor-field">
+                @Html.LabelFor(model => model.LastName)
+                @Html.DisplayFor(model => model.LastName)
+            </div>
+            <div class="editor-field" id="CityName">
+                @Html.LabelFor(model => model.CityId)
+                @Html.HiddenFor(model => model.CityId)
+            </div>
+
+            <div class="clear"></div>
+            <div class="editor-field">
+                @Html.LabelFor(model => model.Specialty)
+            <table style="width: 100%">
+                <tr>
+                    @{
+                        int cnt = 0;
+                        ICollection<PharmaReport.Models.Specialty> Specialties = Model.Specialty;
+                        foreach (var specialty in Specialties)
+                        {
+                            if (cnt++ % 6 == 0)
+                            {
+                                    @:  </tr> <tr> 
+                                    }
+                                    @: <td>  
+                                        @specialty.Name
+                                    @:</td>
+                                }
+                                @: </tr>
+                    }
+            </table>
+        </div>          
+            <div class="clear"></div>
+
+            <p>
+                @Html.ActionLink("Edit", "Edit", new { id = Model.UserId }, new { @class = "submit" })
+                @Html.ActionLink("Back", "Index", null, new { @class = "submit" })
+            </p>
+    </div>
+</div>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $.ajax({
+            url: "/admin/location/LookupCityById/" + $("#CityId").val(), type: "POST", dataType: "json",
+            data: {},
+            success: function (data) {
+                $.map(data, function (item) {
+                    $("#CityName").append(item.Name);
+                });
+            }
+        })
+    });
+</script>

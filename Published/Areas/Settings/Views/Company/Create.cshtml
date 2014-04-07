@@ -1,0 +1,48 @@
+﻿@model BM.Models.Company
+<div class="modal-header">
+    <a class="close" data-dismiss="modal">&times;</a>
+    <h3>Create Company</h3>
+</div>
+@{AjaxOptions ajaxOpts = new AjaxOptions
+                          {
+                              HttpMethod = "POST",
+                              UpdateTargetId = "form-content",
+                              OnBegin = "OnBegin",
+                              OnFailure = "OnFailure",
+                              OnSuccess = "OnSuccess",
+                              OnComplete = "OnComplete"
+                          };
+using (Ajax.BeginForm("Create", "Company", ajaxOpts, new { @class = "form-horizontal no-margin" }))
+{
+    <div class="modal-body container-fluid">
+        <div class="row-fluid" style="min-width:600px;">
+            <div id="message"></div>
+            <div class="controls-row control-group">
+                @Html.TextBoxFor(C => C.Name, new { placeholder = "Company Name", @class = "span6" })
+                @Html.TextBoxFor(C => C.MailingName, new { placeholder = "Mailing Name", @class = "span6" })
+            </div>
+            <div class="controls-row control-group">
+                @Html.TextBoxFor(C => C.Name, new { placeholder = "Company Name", @class = "span6" })
+                @Html.TextBoxFor(C => C.MailingName, new { placeholder = "Mailing Name", @class = "span6" })
+            </div>
+            <div class="controls-row control-group">
+                @Html.TextBoxFor(C => C.Name, new { placeholder = "Company Name", @class = "span6" })
+                @Html.TextBoxFor(C => C.MailingName, new { placeholder = "Mailing Name", @class = "span6" })
+            </div>
+            <div class="controls-row control-group">
+                @Html.TextBoxFor(C => C.Name, new { placeholder = "Company Name", @class = "span6" })
+                @Html.TextBoxFor(C => C.MailingName, new { placeholder = "Mailing Name", @class = "span6" })
+            </div>
+            <div class="controls-row control-group">
+                @Html.TextBoxFor(C => C.Name, new { placeholder = "Company Name", @class = "span6" })
+                @Html.TextBoxFor(C => C.MailingName, new { placeholder = "Mailing Name", @class = "span6" })
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    Html.AntiForgeryToken();
+    <div class="modal-footer">
+        <input class="btn btn-primary" type="submit" value="Save Changes">
+        <a class="btn" data-dismiss="modal">Close</a>
+    </div>
+}}

@@ -1,0 +1,162 @@
+﻿@model BM.Models.User
+@{
+    ViewBag.Title = "Create User";
+}@{Layout = "~/Views/Shared/_Layout.cshtml";}
+@*<ul id="crumbs">
+    <li>@Html.ActionLink("Home", "Index", "Account") </li>
+    <li>@Html.ActionLink("Manage Users", "Index", "User") </li>
+    <li>Create User</li>
+</ul>*@
+<div class="contentWrapper">
+    <div class="full-page-form  formdetails">
+        @ViewBag.Message
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+            <div class="editor-field">
+                @Html.LabelFor(model => model.UserName)
+                @Html.EditorFor(model => model.UserName)                
+                @Html.ValidationMessageFor(model => model.UserName, "", new { id = "username-message" })
+            </div>
+            <div class="editor-field">
+                @Html.LabelFor(model => model.Email)
+                @Html.EditorFor(model => model.Email)    
+                @Html.ValidationMessageFor(model => model.Email)
+            </div>
+            <div class="clear"></div>
+            <div class="editor-field">
+                @Html.LabelFor(model => model.PasswordHash)
+                @Html.EditorFor(model => model.PasswordHash)
+                @Html.ValidationMessageFor(model => model.PasswordHash)
+            </div>
+            <div class="editor-field">
+                @Html.LabelFor(model => model.PasswordHash)
+                @Html.EditorFor(model => model.PasswordHash)
+                @Html.ValidationMessageFor(model => model.PasswordHash)
+            </div>
+            <div class="clear"></div>
+              <div class="editor-field">
+                @Html.LabelFor(model => model.FirstName)
+                @Html.EditorFor(model => model.FirstName)
+            </div>
+
+            <div class="editor-field">
+                @Html.LabelFor(model => model.LastName)
+                @Html.EditorFor(model => model.LastName)
+            </div>
+            <div class="clear"></div>
+            <div class="editor-field">
+                @Html.LabelFor(model => model.Companies)
+            <table style="width: 100%">
+                <tr>
+                    @{
+            int cnt = 0;
+            List<BM.Models.Company> Companies = ViewBag.AssignedCompanies;
+            foreach (var company in Companies)
+            {
+                if (cnt++ % 6 == 0)
+                {
+                                    @:  </tr> <tr> 
+                                    }
+                                    @: <td> 
+                                        <input type="checkbox" 
+                                               name="selectedSpecialty" 
+                                               value="@company.CompanyId" /> 
+                                        @company.Name
+                                    @:</td>
+                                }
+                                @: </tr>
+                    }
+            </table>
+        </div>          
+            <div class="clear"></div>
+            <p>
+                <input type="submit" class="submit" value="Add" />
+                @Html.ActionLink("Back", "Index", null, new { @class = "submit" })
+            </p>
+        }
+
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        var msg = $("#username-message");
+        var btn = $("input[type='submit']");
+        var userNameText = $("#UserProfile_UserName");
+        //   userNameText.focus();
+        
+        $("#Password_NewPassword").blur(function () {
+            $("#Password_OldPassword").val(this.val());
+        });
+        $("#UserProfile_UserName").blur(function () {
+            var username = $(this).val();
+            if (username.length == 0) {
+                // alert("No username.");
+                return;
+            }
+            $.ajax({
+                url: '@Url.Action("CheckForUniqueUser", "User")',
+                dataType: 'json',
+                type: 'GET',
+                data: { userName: username },
+                success: OnCheckForUniqueUserSuccess,
+                error: OnCheckForUniqueUserError
+            });
+        });
+
+        function OnCheckForUniqueUserSuccess(data) {
+            if (data.Exists) {
+                msg.text("This username already exists.");
+                msg.addClass("input-validation-error field-validation-error");
+                msg.removeClass("field-validation-valid input-validation-valid");
+                userNameText.addClass("input-validation-error");
+                btn.attr("disabled", "disabled");
+            } else {
+                msg.text("");
+                btn.removeAttr("disabled");
+            }
+        }
+        function OnCheckForUniqueUserError(xhr, status, error) {
+            msg.text("There was an error checking uniqueness.");
+        }
+    });
+
+    $(function () {
+        $("#CityName").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "/admin/location/LookupCity", type: "POST", dataType: "json",
+                    data: { id: request.term },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return { label: item.Name, value: item.Name, id: item.Id }
+                        }))
+                    }
+                })
+            },
+            select: function (event, ui) {
+                document.getElementById("UserProfile_CityId").value = ui.item.id;
+
+            }
+        })
+    });
+    $(document).ready(function () {
+
+        var btn = $("input[type='submit']");
+        $('input', 'form').blur(function () {
+            $(this).valid();
+            if ($(this).attr('id') == "CityName") {
+                if ($(this).val() == '') {
+                    $(this).addClass("input-validation-error");
+                    btn.attr("disabled", "disabled");
+                    //alert('');
+                }
+                else {
+                    btn.removeAttr("disabled");
+                    $(this).removeClass("input-validation-error");
+                }
+            }
+        });
+    });
+</script>
