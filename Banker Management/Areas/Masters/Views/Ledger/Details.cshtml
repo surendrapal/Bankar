@@ -1,0 +1,114 @@
+﻿@model BM.Models.Ledger
+
+@{
+    ViewBag.Title = "Ledger Details";
+}
+
+<h3>Ledger Details</h3>
+<div class="row-fluid">
+    @using (Html.BeginForm("Edit", "Ledger", new { area = "Masters" }, FormMethod.Post, new { @class = "form-horizontal no-margin" }))
+    {
+        <div class="control-group">
+            <div class="controls controls-row">
+                @Html.ValidationSummary(true)
+            </div>
+        </div>
+        <div class="row-fluid">
+            <div class="control-group span6">
+                @Html.LabelFor(model => model.Name, new { @class = "control-label" })
+                <div class="controls controls-row">
+                    @Html.TextBoxFor(C => C.Name, new { placeholder = "Ledger Name", @class = "span12" })
+                </div>
+            </div>
+            <div class="control-group span6">
+                @Html.LabelFor(model => model.GroupId, new { @class = "control-label" })
+                <div class="controls controls-row">
+                    @Html.TextBoxFor(C => C.Group.Name, new { placeholder = "Ledger Name", @class = "span12" })
+                </div>
+            </div>
+        </div>
+        <div class="row-fluid">
+            <div class="control-group span6">
+                @Html.LabelFor(model => model.MailingName, new { @class = "control-label" })
+                <div class="controls controls-row">
+                    @Html.TextBoxFor(C => C.MailingName, new { placeholder = "Mailing Name", @class = "span12" })
+                </div>
+            </div>
+            <div class="control-group span6">
+                @Html.LabelFor(model => model.Address1, new { @class = "control-label" })
+                <div class="controls controls-row">
+                    @Html.TextBoxFor(C => C.Address1, new { placeholder = "Address line 1", @class = "span12" })
+                </div>
+            </div>
+        </div>
+        <div class="row-fluid">
+            <div class="control-group span6">
+                @Html.LabelFor(model => model.Address2, new { @class = "control-label" })
+                <div class="controls controls-row">
+                    @Html.TextBoxFor(C => C.Address2, new { placeholder = "Address line 2", @class = "span12" })
+                </div>
+            </div>
+            <div class="control-group span6">
+                @Html.LabelFor(model => model.Address3, new { @class = "control-label" })
+                <div class="controls controls-row">
+                    @Html.TextBoxFor(C => C.Address3, new { placeholder = "Address line 3", @class = "span12" })
+                </div>
+            </div>
+        </div>
+        <div class="row-fluid">
+            <div class="control-group span6">
+                @Html.LabelFor(C => C.CityId, new { @class = "control-label" })
+                <div class="controls controls-row">
+                    @Html.TextBoxFor(C => C.City.Name, new { placeholder = "City", @class = "span12", style = "width:100%" })
+                </div>
+            </div>
+            <div class="control-group span6">
+                @Html.LabelFor(model => model.PinCode, new { @class = "control-label" })
+                <div class="controls controls-row">
+                    @Html.TextBoxFor(C => C.PinCode, new { placeholder = "Pin Code", @class = "span12" })
+                </div>
+            </div>
+        </div>
+        <div class="row-fluid">
+            <div class="control-group span6">
+                @Html.LabelFor(C => C.Mobile, new { @class = "control-label" })
+                <div class="controls controls-row">
+                    @Html.TextBoxFor(C => C.Mobile, new { placeholder = "Mobile", @class = "span12" })
+                </div>
+            </div>
+            <div class="control-group span6">
+                @Html.LabelFor(model => model.Fax, new { @class = "control-label" })
+                <div class="controls controls-row">
+                    @Html.TextBoxFor(C => C.Fax, new { placeholder = "Fax", @class = "span12" })
+                </div>
+            </div>
+        </div>
+        <div class="row-fluid">
+            <div class="control-group span6">
+                @Html.LabelFor(C => C.Email, new { @class = "control-label" })
+                <div class="controls controls-row">
+                    @Html.TextBoxFor(C => C.Email, new { placeholder = "Email", @class = "span12" })
+                </div>
+            </div>
+            <div class="control-group span6">
+                @Html.LabelFor(model => model.OpeningBalance, new { @class = "control-label" })
+                <div class="controls controls-row">
+                    @Html.TextBoxFor(C => C.OpeningBalance, new { placeholder = "Opening Balance", @class = "span12" })
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="form-actions no-margin">
+            <a class="btn btn-info" role="button" href="@Url.Action("Edit", "Ledger", new { id=Model.Id })">
+                Edit
+            </a>
+
+            <a class="btn btn-info" role="button" href="@Url.Action("Index", "Ledger")">
+                Back
+            </a>
+            <div class="clearfix">
+            </div>
+        </div>
+        @Html.AntiForgeryToken()
+    }
+</div>

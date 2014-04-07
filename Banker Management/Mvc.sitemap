@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mvcSiteMap xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xmlns="http://mvcsitemap.codeplex.com/schemas/MvcSiteMap-File-4.0"
+            xsi:schemaLocation="http://mvcsitemap.codeplex.com/schemas/MvcSiteMap-File-4.0 MvcSiteMapSchema.xsd">
+
+  <mvcSiteMapNode title="Home" controller="Dashboard" action="Index">
+    <mvcSiteMapNode title="Settings" controller="" action="Index" area="Settings">
+      <mvcSiteMapNode title="List of Companies" controller="Company" action="Index" area="Settings"/>
+      <mvcSiteMapNode title="List of Locations" controller="Location" action="Index" area="Settings"/>
+      <mvcSiteMapNode title="List of Users" controller="User" action="Index" area="Settings"/>
+    </mvcSiteMapNode>
+  </mvcSiteMapNode>
+
+</mvcSiteMap>

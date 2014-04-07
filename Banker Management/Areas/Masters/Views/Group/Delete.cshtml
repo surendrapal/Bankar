@@ -1,0 +1,56 @@
+﻿@model BM.Models.Group
+
+@{
+    ViewBag.Title = "Delete Group";
+}
+<h3>Delete Group</h3>
+<div class="row-fluid">
+    @using (Html.BeginForm("Delete", "Group", new { area = "Masters" }, FormMethod.Post, new { @class = "form-horizontal no-margin" }))
+    {
+        <div class="control-group">
+            <div class="controls controls-row">
+                <div class="alert alert-block alert-error fade in">
+                    <button type="button" class="close" data-dismiss="alert">
+                        ×
+                    </button>
+                    <h4 class="alert-heading">
+                        Alert!
+                    </h4>
+                    <p>
+                        Are you sure you want to delete this?
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="control-group">
+            @Html.LabelFor(model => model.Name, new { @class = "control-label" })
+            <div class="controls controls-row">
+                @Html.TextBoxFor(model => model.Name, new { @class = "span12", placeholder = "Name" })
+            </div>
+        </div>
+        <div class="control-group">
+            @Html.LabelFor(model => model.Description, new { @class = "control-label" })
+            <div class="controls controls-row">
+                @Html.TextBoxFor(model => model.Description, new { @class = "span12", placeholder = "Description" })
+            </div>
+        </div>
+        <div class="control-group">
+            @Html.LabelFor(model => model.ParentId, "Group", new { @class = "control-label" })
+            <div class="controls controls-row">
+                @Html.TextBoxFor(model => model.ParentGroup.Name, new { @class = "span12", placeholder = "Parent Group" })
+            </div>
+        </div>
+        <div class="form-actions no-margin">
+            <button class="btn btn-info " type="submit">
+                Delete
+            </button>
+
+            <a class="btn btn-info" role="button" href="@Url.Action("Index", "Group")">
+                Back
+            </a>
+            <div class="clearfix">
+            </div>
+        </div>
+        @Html.AntiForgeryToken()
+    }
+</div>

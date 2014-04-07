@@ -1,0 +1,96 @@
+﻿@model BM.Models.Company
+@{ ViewBag.Title = "Edit Company";}
+<div class="container-fluid" style="min-width:650px;">
+    <div class="modal-header">
+        @*<a class="close" data-dismiss="modal">&times;</a>*@
+        <h3>Edit Company</h3>
+    </div>
+    @using (Html.BeginForm("Edit", "Company", new { area = "Settings" }, FormMethod.Post, new { @class = "form-horizontal no-margin" }))
+    {
+        <div class="modal-body container-fluid ">
+            <div class="row-fluid">
+                <div id="message"></div>
+                <div class="control-group">
+                    <div class="controls controls-row">
+                        @Html.ValidationSummary(true)
+                    </div>
+                </div>
+                <div class="controls-row control-group">
+                    @Html.TextBoxFor(C => C.Name, new { placeholder = "Company Name", @class = "span6" })
+                </div>
+                <div class="controls-row control-group">
+                    @Html.TextBoxFor(C => C.MailingName, new { placeholder = "Mailing Name", @class = "span6" })
+                </div>
+                <div class="controls-row control-group">
+                    @Html.TextBoxFor(C => C.Address1, new { placeholder = "Address1", @class = "span6" })
+                    @Html.TextBoxFor(C => C.Address2, new { placeholder = "Address2", @class = "span6" })
+                </div>
+                <div class="controls-row control-group">
+                    @Html.TextBoxFor(C => C.Address3, new { placeholder = "Address3", @class = "span6" })
+                </div>
+                <div class="controls-row control-group">
+                    <div class="span6">
+                        @Html.TextBoxFor(C => C.City.Name, new { placeholder = "City", @class = "span6", style = "width:100%" })
+                        @Html.HiddenFor(C => C.CityId)
+                    </div>
+                    @Html.TextBoxFor(C => C.PinCode, new { placeholder = "Pin Code", @class = "span6" })
+                </div>
+                <div class="controls-row control-group">
+                    @Html.TextBoxFor(C => C.Mobile, new { placeholder = "Mobile", @class = "span6" })
+                    @Html.TextBoxFor(C => C.Fax, new { placeholder = "Fax", @class = "span6" })
+                </div>
+
+                <div class="controls-row control-group">
+                    @Html.TextBoxFor(C => C.Email, new { placeholder = "Email", @class = "span6" })
+                </div>
+
+                <div class="controls-row control-group">
+                    @Html.TextBoxFor(C => C.FYStart, new { placeholder = "FY Start", @class = "span6 date_picker" })
+                    @Html.TextBoxFor(C => C.BookBeginingFrom, new { placeholder = "Book Begining From", @class = "span6 date_picker" })
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        @Html.AntiForgeryToken();
+        <div class="modal-footer">
+            <input class="btn btn-primary" type="submit" value="Save Changes">
+            <a class="btn" data-dismiss="modal" href="@Url.Action("Index", "Company")">Close</a>
+        </div>
+    }
+</div>
+@section scripts{
+    <script type="text/javascript">
+
+        function onSelected($e, datum) {
+            $('#CityId').val(datum["Id"]);
+        }
+        $(document).ready(function () {
+            var countries = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.obj.whitespace('Name'),
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                limit: 10,
+                remote: {
+
+                    url: '/Settings/Location/LookupCity?id=%QUERY',
+                    ajax: {
+                        type: 'POST'
+                    }
+                }
+            });
+            countries.initialize();
+            $('#City_Name').typeahead(null, {
+                name: 'countries',
+                displayKey: 'Name',
+                source: countries.ttAdapter(),
+                templates: {
+                    empty: [
+                    '<div class="empty-message">',
+                    'unable to find any  qmatch the current query',
+                    '</div>'
+                    ].join('\n'),
+                    //suggestion: Handlebars.compile('<p><strong>{{value}}</strong> – {{year}}</p>')
+                }
+            }).on('typeahead:selected', onSelected);
+        });
+    </script>
+}

@@ -1,0 +1,86 @@
+﻿@model IEnumerable<BM.Models.Company>
+@{ ViewBag.Title = "Company Management"; }
+@*<ul id="crumbs">
+        <li><a href="/admin">Home</a></li>
+        <li>Manage Companies</li>
+    </ul>*@
+<div class="row-fluid">
+    <div class="span12">
+        <div class="widget no-margin">
+            <div class="widget-header">
+                <div class="title">
+                    <span data-icon="" aria-hidden="true" class="fs1"></span> List of Companies
+                </div>
+            </div>
+            <div class="widget-body">
+                <div class="example_alt_pagination" id="dt_example">
+
+                    <div class="pull-right">
+                        <a @*data-original-title="" data-toggle="modal"*@ class="btn btn-small btn-primary hidden-tablet hidden-phone" role="button" href="@Url.Action("Create", "Company")">
+                            Create Company
+                        </a>
+                    </div>
+                    <table class="table table-striped table-bordered" id="customers">
+                        <thead>
+                            <tr> <th>Name</th><th>Mailing Name</th>  <th>Financial Year</th> <th>Action</th></tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script type="text/javascript">
+        //Data Tables
+        $(document).ready(function () {
+            $('#customers').dataTable({
+                "sAjaxSource": "/Settings/Company/GetCompanies",
+                "bProcessing": false,
+                "bServerSide": false,
+                "sAjaxDataProp": "",
+                "sPaginationType": "full_numbers",
+                "aoColumnDefs": [
+                {
+                    "sWidth": "20%", "aTargets": [2, 3]
+                }, {
+                    "aTargets": [3]
+                  , "bSortable": false
+                  , "mRender": function (url, type, full) {
+                      return '<a href="@Url.Action("Switch", "Company")/' + url + '" class="btn btn-success btn-small">Select</a> <a href="@Url.Action("Edit", "Company")/' + url + '" class="btn btn-success btn-small">Edit</a> <a href="@Url.Action("Delete", "Company")/' + url + '" class="btn btn-small btn-primary">Delete</a>';
+                  }
+                }
+                ],
+                "aoColumns": [
+                    { "mDataProp": "Name" },
+                    { "mDataProp": "MailingName" },
+                    {
+                        "mDataProp": "FYStart",
+                        "fnRender" : function(obj, val)
+                        {
+                            var dx = new Date(parseInt(val.substr(6)));
+                            var dd = dx.getDate();
+                            var mm = dx.getMonth() + 1;
+                            var yy = dx.getFullYear();
+
+                            if (dd <= 9)
+                            {
+                                dd = "0" + dd;
+                            }
+                            if (mm <= 9) {
+                                mm = "0" + mm;
+                            }
+                            return dd + "/" + mm + "/" + yy;
+                        }
+                    },
+
+                    { "mDataProp": "CompanyId" }
+                ]
+            });
+
+        });
+
+    </script>
+}

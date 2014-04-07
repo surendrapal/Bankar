@@ -1,0 +1,80 @@
+﻿@model BM.Models.Location
+
+@{
+    ViewBag.Title = "Edit Location";
+}
+
+<h3>Edit Location</h3>
+<div class="row-fluid">
+    @using (Html.BeginForm("Edit", "Location", new { area = "Settings" }, FormMethod.Post, new { @class = "form-horizontal no-margin" }))
+    {
+        <div class="control-group">
+            <div class="controls controls-row">
+                @Html.ValidationSummary(true)
+            </div>
+        </div>
+        <div class="control-group">
+            @Html.LabelFor(model => model.Name, new { @class = "control-label" })
+            <div class="controls controls-row">
+                @Html.TextBoxFor(model => model.Name, new { @class = "span12", placeholder = "Name" })
+            </div>
+        </div>
+        <div class="control-group">
+            @Html.LabelFor(model => model.ParentId, new { @class = "control-label" })
+            <div class="controls controls-row">
+                <div class="span12">
+                    @Html.TextBoxFor(C => C.ParentLocation.Name, new { placeholder = "Parent Name", @class = "span6", style = "width:100%" })
+                    @Html.HiddenFor(m => m.ParentId)
+                </div>
+            </div>
+        </div>
+        <div class="form-actions no-margin">
+            <button class="btn btn-primary" type="submit">
+                Update
+            </button>
+
+            <a class="btn btn-info" role="button" href="@Url.Action("Index", "Location")">
+                Back
+            </a>
+            <div class="clearfix">
+            </div>
+        </div>
+        @Html.AntiForgeryToken()
+    }
+</div>
+@section scripts{
+    <script type="text/javascript">
+
+        function onSelected($e, datum) {
+            $('#ParentId').val(datum["Id"]);
+        }
+        $(document).ready(function () {
+            var countries = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.obj.whitespace('Name'),
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                limit: 10,
+                remote: {
+
+                    url: '/Settings/Location/LookupCity?id=%QUERY',
+                    ajax: {
+                        type: 'POST'
+                    }
+                }
+            });
+            countries.initialize();
+            $('#ParentLocation_Name').typeahead(null, {
+                name: 'countries',
+                displayKey: 'Name',
+                source: countries.ttAdapter(),
+                templates: {
+                    empty: [
+                    '<div class="empty-message">',
+                    'unable to find any  qmatch the current query',
+                    '</div>'
+                    ].join('\n'),
+                    //suggestion: Handlebars.compile('<p><strong>{{value}}</strong> – {{year}}</p>')
+                }
+            }).on('typeahead:selected', onSelected);
+        });
+    </script>
+}

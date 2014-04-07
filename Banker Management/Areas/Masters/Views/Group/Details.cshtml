@@ -1,0 +1,40 @@
+﻿@model BM.Models.Group
+
+@{
+    ViewBag.Title = "Group Detail";
+}
+<h3>Group Detail</h3>
+<div class="row-fluid">
+    @using (Html.BeginForm("Edit", "Group", new { area = "Masters" }, FormMethod.Post, new { @class = "form-horizontal no-margin" }))
+    {
+                <div class="control-group">
+            @Html.LabelFor(model => model.Name, new { @class = "control-label" })
+            <div class="controls controls-row">
+                @Html.TextBoxFor(model => model.Name, new { @class = "span12", placeholder = "Name" })
+            </div>
+        </div>
+        <div class="control-group">
+            @Html.LabelFor(model => model.Description, new { @class = "control-label" })
+            <div class="controls controls-row">
+                @Html.TextBoxFor(model => model.Description, new { @class = "span12", placeholder = "Description" })
+            </div>
+        </div>
+        <div class="control-group">
+            @Html.LabelFor(model => model.ParentId, "Group", new { @class = "control-label" })
+            <div class="controls controls-row">
+                @Html.TextBoxFor(model => model.ParentGroup.Name, new { @class = "span12", placeholder = "Description" })
+            </div>
+        </div>
+        <div class="form-actions no-margin">
+            <a class="btn btn-info" role="button" href="@Url.Action("Edit", "Group", new { id=Model.Id })">
+                Edit
+            </a>
+            <a class="btn btn-info" role="button" href="@Url.Action("Index", "Group")">
+                Back
+            </a>
+            <div class="clearfix">
+            </div>
+        </div>
+        @Html.AntiForgeryToken()
+    }
+</div>

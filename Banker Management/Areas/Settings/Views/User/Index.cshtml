@@ -1,0 +1,52 @@
+﻿@model IEnumerable<BM.Models.User>
+@{ ViewBag.Title = "User Management"; }
+<div style="padding: 20px 20px 0px;">
+    <p>@Html.ActionLink("Create User", "Create", "User", null, new { @class = "btn btn-info" })
+        @Html.ActionLink("Create Role", "Index", "Role", null, new { @class = "btn btn-info" })
+    </p>
+    <div class="clear"></div>
+</div>
+@if (Model.Count() > 0)
+{
+    <table class="table table4Col" id="Chemists" cellpadding="0" cellspacing="0">
+        <thead>
+            <tr>
+                <th class="Col2">User Name</th>
+                <th class="Col2">Full Name</th>
+                <th class="Col2">Email</th>
+                <th class="Date">Created On</th>
+                <th class="Oprations">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{ var odd = true;
+               int count = 1; }
+            @foreach (var item in Model)
+            {
+                <tr class="@(odd ? "odd" : "even")">
+                    <td class="Date"><span>@Html.ActionLink(@item.UserName, "Details", new { id = item.Id })</span></td>
+                    <td class="Col2 User"><span>@item.FirstName @item.LastName</span></td>
+                    <td class="Col2 User"><span>@item.Email </span></td>
+                    <td class="Date"><span>@item.CreatedDate.ToShortDateString()</span></td>
+                    <td class="Oprations User">
+                    @Html.ActionLink("View", "Details", new { id = item.Id }, new { @class = "btn btn-info" }) 
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-info" })
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-info" }) 
+                    @Html.ActionLink("Change Password", "ChangePassword", new { id = item.Id }, new { @class = "btn btn-info" }) 
+                    @Html.ActionLink("Grant Roles", "GrantRolesToUser", new { id = item.UserName }, new { @class = "btn btn-info" })
+                    </td>
+                </tr>
+                count++;
+                odd = !odd;
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="contentWrapper">
+        <div class="formdetails field-message">
+            There is no User Created Please <a href="@Url.Action("Create")">Click here</a> to Create
+        </div>
+    </div>
+}
