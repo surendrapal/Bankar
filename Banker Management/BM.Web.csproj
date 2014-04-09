@@ -358,7 +358,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Masters\Views\Shared\" />
+    <Folder Include="Areas\Masters\Views\Shared\EditorTemplates\" />
     <Folder Include="Areas\Reports\Controllers\" />
     <Folder Include="Areas\Reports\Views\Shared\" />
     <Folder Include="Areas\Settings\Views\Base\" />
@@ -366,6 +366,7 @@
     <Folder Include="Areas\Trancations\Models\" />
     <Folder Include="Areas\Trancations\Views\Shared\" />
     <Folder Include="Logs\" />
+    <Folder Include="Views\Shared\EditorTemplates\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Masters\Views\web.config" />
@@ -411,6 +412,8 @@
     <Content Include="Areas\Masters\Views\Ledger\Details.cshtml" />
     <Content Include="Areas\Masters\Views\Ledger\Edit.cshtml" />
     <Content Include="Areas\Masters\Views\Ledger\Index.cshtml" />
+    <Content Include="Areas\Masters\Views\Ledger\EditorTemplates\InterestParameter.cshtml" />
+    <Content Include="Areas\Masters\Views\Ledger\EditorTemplates\InterestParameter - Copy.cshtml" />
     <None Include="MvcSiteMapSchema.xsd">
       <SubType>Designer</SubType>
     </None>

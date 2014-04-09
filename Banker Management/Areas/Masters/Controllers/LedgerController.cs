@@ -7,7 +7,9 @@ using BM.DataAccess;
 using BM.Web.Filters;
 using NLog;
 using BM.Web.ViewModels;
-
+using BM.Common;
+using System.Collections;
+using System.Collections.Generic;
 namespace BM.Web.Areas.Masters.Controllers
 {
     [CustomActionAttribute]
@@ -33,6 +35,7 @@ namespace BM.Web.Areas.Masters.Controllers
             return Json(ledgers.ToList(), JsonRequestBehavior.AllowGet);
         }
 
+
         // GET: /Masters/Ledger/Details/5
         public ActionResult Details(Guid? id)
         {
@@ -53,7 +56,10 @@ namespace BM.Web.Areas.Masters.Controllers
         {
             var groups = repository.Get<Group>();
             ViewBag.GroupId = new SelectList(groups.ToList(), "Id", "Name");
-            return View();
+            LoadDropDown();
+            Ledger ledger = new Ledger();
+            ledger.CreateInterestParameters();
+            return View(ledger);
         }
 
         // POST: /Masters/Ledger/Create
@@ -76,12 +82,20 @@ namespace BM.Web.Areas.Masters.Controllers
                 catch (Exception exception)
                 {
                     logger.Error(exception.Message);
+                    ModelState.AddModelError("", exception.Message);
                 }
             }
 
             var groups = repository.Get<Group>();
             ViewBag.GroupId = new SelectList(groups.ToList(), "Id", "Name", ledger.GroupId);
+            LoadDropDown();
             return View(ledger);
+        }
+
+        void LoadDropDown()
+        {
+            ViewBag.InterestStyleId = new SelectList(GetInterestStyle().AsEnumerable(), "Key", "Value");
+            ViewBag.InterestBalanceId = new SelectList(GetInterestBalance().AsEnumerable(), "Key", "Value");
         }
 
         // GET: /Masters/Ledger/Edit/5
@@ -97,6 +111,7 @@ namespace BM.Web.Areas.Masters.Controllers
                 return HttpNotFound();
             }
             var groups = repository.Get<Group>();
+            LoadDropDown();
             ViewBag.GroupId = new SelectList(groups.ToList(), "Id", "Name", ledger.GroupId);
             return View(ledger);
         }
@@ -124,6 +139,7 @@ namespace BM.Web.Areas.Masters.Controllers
                 }
             }
             var ledgers = repository.Get<Ledger>();
+            LoadDropDown();
             ViewBag.GroupId = new SelectList(ledgers.ToList(), "Id", "Name", ledger.GroupId);
             return View(ledger);
         }
@@ -169,6 +185,26 @@ namespace BM.Web.Areas.Masters.Controllers
                 return HttpNotFound();
             }
             return View(ledger);
+        }
+
+        public Dictionary<string, string> GetInterestStyle()
+        {
+            Dictionary<string, string> interestStyleList = new Dictionary<string, string>();
+            foreach (var interestStyle in Enums.EnumToList<InterestStyle>())
+            {
+                interestStyleList.Add(interestStyle.ToString(), Enums.GetEnumDescription(interestStyle));
+            }
+            return interestStyleList;
+        }
+
+        public Dictionary<string, string> GetInterestBalance()
+        {
+            Dictionary<string, string> interestBalanceList = new Dictionary<string, string>();
+            foreach (var interestBalance in Enums.EnumToList<InterestBalance>())
+            {
+                interestBalanceList.Add(interestBalance.ToString(), Enums.GetEnumDescription(interestBalance));
+            }
+            return interestBalanceList;
         }
     }
 }

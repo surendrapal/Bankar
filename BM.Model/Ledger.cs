@@ -13,6 +13,7 @@ namespace BM.Models
         public Ledger()
         {
             CreatedDate = DateTime.Now;
+            this.InterestParameters = new HashSet<InterestParameter>();
         }
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [ScaffoldColumn(false)]
@@ -104,6 +105,18 @@ namespace BM.Models
                 }
                 else
                     return string.Empty;
+            }
+        }
+
+        [Display(Name = "Interest Parameter")]
+
+        public virtual ICollection<InterestParameter> InterestParameters { get; set; }
+
+        public void CreateInterestParameters(int count = 1)
+        {
+            for (int i = 0; i < count; i++)
+            {
+                InterestParameters.Add(new InterestParameter());
             }
         }
 

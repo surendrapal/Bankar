@@ -9,20 +9,20 @@
     @using (Html.BeginForm("Create", "Ledger", new { area = "Masters" }, FormMethod.Post, new { @class = "form-horizontal no-margin" }))
     {
         <div class="control-group">
-            <div class="controls controls-row">
-                @Html.ValidationSummary(true)
+            <div class="controls">
+                @Html.ValidationSummary(false)
             </div>
         </div>
         <div class="row-fluid">
             <div class="control-group span6">
                 @Html.LabelFor(model => model.Name, new { @class = "control-label" })
-                <div class="controls controls-row">
+                <div class="controls">
                     @Html.TextBoxFor(C => C.Name, new { placeholder = "Ledger Name", @class = "span12" })
                 </div>
             </div>
             <div class="control-group span6">
                 @Html.LabelFor(model => model.GroupId, new { @class = "control-label" })
-                <div class="controls controls-row">
+                <div class="controls">
                     @Html.DropDownList("GroupId", null, "SELECT-ONE", new Dictionary<string, object> { { "class", "span12" }, { "data-val", "true" } })
                 </div>
             </div>
@@ -30,13 +30,13 @@
         <div class="row-fluid">
             <div class="control-group span6">
                 @Html.LabelFor(model => model.MailingName, new { @class = "control-label" })
-                <div class="controls controls-row">
+                <div class="controls">
                     @Html.TextBoxFor(C => C.MailingName, new { placeholder = "Mailing Name", @class = "span12" })
                 </div>
             </div>
             <div class="control-group span6">
                 @Html.LabelFor(model => model.Address1, new { @class = "control-label" })
-                <div class="controls controls-row">
+                <div class="controls">
                     @Html.TextBoxFor(C => C.Address1, new { placeholder = "Address line 1", @class = "span12" })
                 </div>
             </div>
@@ -44,13 +44,13 @@
         <div class="row-fluid">
             <div class="control-group span6">
                 @Html.LabelFor(model => model.Address2, new { @class = "control-label" })
-                <div class="controls controls-row">
+                <div class="controls">
                     @Html.TextBoxFor(C => C.Address2, new { placeholder = "Address line 2", @class = "span12" })
                 </div>
             </div>
             <div class="control-group span6">
                 @Html.LabelFor(model => model.Address3, new { @class = "control-label" })
-                <div class="controls controls-row">
+                <div class="controls">
                     @Html.TextBoxFor(C => C.Address3, new { placeholder = "Address line 3", @class = "span12" })
                 </div>
             </div>
@@ -58,28 +58,28 @@
         <div class="row-fluid">
             <div class="control-group span6">
                 @Html.LabelFor(C => C.CityId, new { @class = "control-label" })
-                <div class="controls controls-row">
+                <div class="controls">
                     @Html.TextBoxFor(C => C.City.Name, new { placeholder = "City", @class = "span12", style = "width:100%" })
                     @Html.HiddenFor(C => C.CityId)
                 </div>
             </div>
             <div class="control-group span6">
                 @Html.LabelFor(model => model.PinCode, new { @class = "control-label" })
-                <div class="controls controls-row">
+                <div class="controls">
                     @Html.TextBoxFor(C => C.PinCode, new { placeholder = "Pin Code", @class = "span12" })
                 </div>
             </div>
         </div>
-         <div class="row-fluid">
+        <div class="row-fluid">
             <div class="control-group span6">
                 @Html.LabelFor(C => C.Mobile, new { @class = "control-label" })
-                <div class="controls controls-row">
-                    @Html.TextBoxFor(C => C.Mobile, new { placeholder = "Mobile", @class = "span12"})
+                <div class="controls">
+                    @Html.TextBoxFor(C => C.Mobile, new { placeholder = "Mobile", @class = "span12" })
                 </div>
             </div>
             <div class="control-group span6">
                 @Html.LabelFor(model => model.Fax, new { @class = "control-label" })
-                <div class="controls controls-row">
+                <div class="controls">
                     @Html.TextBoxFor(C => C.Fax, new { placeholder = "Fax", @class = "span12" })
                 </div>
             </div>
@@ -87,17 +87,18 @@
         <div class="row-fluid">
             <div class="control-group span6">
                 @Html.LabelFor(C => C.Email, new { @class = "control-label" })
-                <div class="controls controls-row">
+                <div class="controls">
                     @Html.TextBoxFor(C => C.Email, new { placeholder = "Email", @class = "span12" })
                 </div>
             </div>
             <div class="control-group span6">
                 @Html.LabelFor(model => model.OpeningBalance, new { @class = "control-label" })
-                <div class="controls controls-row">
+                <div class="controls">
                     @Html.TextBoxFor(C => C.OpeningBalance, new { placeholder = "Opening Balance", @class = "span12" })
                 </div>
             </div>
         </div>
+        @Html.EditorFor(model => model.InterestParameters)
         <div class="clearfix"></div>
         <div class="form-actions no-margin">
             <button class="btn btn-info " type="submit">
@@ -115,6 +116,7 @@
 </div>
 @section Scripts{
     <script type="text/jscript">
+
         $(document).ready(function () {
             $('.form-horizontal').submit(function (e) { // <<< This selector needs to point to your form.
                 var groupId = '#GroupId';
@@ -127,6 +129,13 @@
                     $(groupId).removeClass("input-validation-error");
                 }
             });
+            var startDate;
+            $('.FromDatePicker').datepicker()
+				.on('changeDate', function (ev) {
+				    $(".ToDatePicker").val('').datepicker('remove').datepicker({
+				        startDate: new Date(ev.date)
+				    });
+				});
         });
 
         function onSelected($e, datum) {

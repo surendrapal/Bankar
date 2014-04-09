@@ -15,7 +15,7 @@
 <![endif]-->
 <head>
     <meta charset="utf-8">
-    <title>@Html.MvcSiteMap().SiteMapTitle() @*@ViewBag.Title*@ - ISys Consultancy Admin</title>
+    <title>@*@Html.MvcSiteMap().SiteMapTitle()*@ @ViewBag.Title - ISys Consultancy Admin</title>
     <meta content="width=device-width, initial-scale=1.0, user-scalable=no" name="viewport">
     @Html.MvcSiteMap().CanonicalTag()
     <script src="/Assets/js/html5/html5-trunk.js"></script>
@@ -251,7 +251,7 @@
         </div><!-- dashboard-container -->
     </div><!-- container-fluid -->
     @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/scripts")
+        @Scripts.Render("~/bundles/scripts")
     @Scripts.Render("~/bundles/custom")
     @RenderSection("scripts", false)
 </body>

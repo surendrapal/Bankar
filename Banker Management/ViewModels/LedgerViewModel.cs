@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System;
+using BM.Models;
 
 namespace BM.Web.ViewModels
 {
@@ -11,5 +12,11 @@ namespace BM.Web.ViewModels
 
         public string GroupName { get; set; }
         public decimal? OpeningBalance { get; set; }
+    }
+
+    public class LedgerEditViewModel
+    {
+        public Ledger Ledger { get; set; }
+        public InterestParameter InterestParameter { get; set; }
     }
 }

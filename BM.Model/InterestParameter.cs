@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -18,25 +19,28 @@ namespace BM.Models
         [ScaffoldColumn(false)]
         public Guid Id { get; set; }
 
-        [Required(ErrorMessage = "Rate is required.")]
         [Column("Rate")]
         [Display(Name = "Rate")]
-        public int Rate { get; set; }
+        public int? Rate { get; set; }
 
-        [Required(ErrorMessage = "Applicable From is required.")]
         [Column("ApplicableFrom")]
         [Display(Name = "Applicable From")]
         [DataType(DataType.DateTime)]
-        public DateTime ApplicableFrom { get; set; }
+        public DateTime? ApplicableFrom { get; set; }
 
-        [Required(ErrorMessage = "Applicable To is required.")]
-        [Column("ApplicableTo")]
         [Display(Name = "Applicable To")]
         [DataType(DataType.DateTime)]
-        public DateTime ApplicableTo { get; set; }
+        public DateTime? ApplicableTo { get; set; }
 
-        public virtual ICollection<InterestStyle> InterestStyles { get; set; }
-        public virtual ICollection<InterestBalance> InterestBalances { get; set; }
+        public Guid LedgerId { get; set; }
+        [ForeignKey("LedgerId")]
+        public virtual Ledger Ledger { get; set; }
+
+        //[Display(Name = "Interest Style")]
+        //public virtual InterestStyle InterestStyles { get; set; }
+
+        //[Display(Name = "Interest Balance")]
+        //public virtual InterestBalance InterestBalance { get; set; }
 
         [DataType(DataType.DateTime)]
         [ScaffoldColumn(false)]
@@ -49,16 +53,23 @@ namespace BM.Models
 
     public enum InterestStyle
     {
-        DaysMonth30 = "30 Days Month",
-        DayYear365 = "365 Day Year",
-        CalendarMonth = "Calendar Month",
-        CalendarYear = "Calendar Year"
+        [Description("30 Days Month")]
+        DaysMonth30=1,
+        [Description("365 Day Year")]
+        DayYear365=2,
+        [Description("Calendar Month")]
+        CalendarMonth=3,
+        [Description("Calendar Year")]
+        CalendarYear=4
     }
 
     public enum InterestBalance
     {
-        AllBalance = "All Balances",
-        CreditBalance = "Credit Balance Only",
-        DebitBalance = "Debit Balance Only"
+        [Description("All Balances")]
+        AllBalance=1,
+        [Description("Credit Balance Only")]
+        CreditBalance=2,
+        [Description("Debit Balance Only")]
+        DebitBalance=3
     }
 }

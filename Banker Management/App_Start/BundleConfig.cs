@@ -28,7 +28,7 @@ namespace BM.Web.Settings
                        "~/assets/js/jquery.unobtrusive*"));
 
 
-            bundles.Add(new ScriptBundle("~/bundles/custom").Include("~/assets/js/bootstrap-datepicker.js", "~/assets/js/custom/custom.js", "~/assets/js/custom/custom-forms.js"));
+            bundles.Add(new ScriptBundle("~/bundles/custom").Include("~/assets/js/custom/custom.js", "~/assets/js/custom/custom-forms.js"));
 
             //bundles.Add(new StyleBundle("~/Content/css").Include(
             //          "~/Content/bootstrap.css",

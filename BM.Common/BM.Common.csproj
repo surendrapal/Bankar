@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes.cs" />
+    <Compile Include="Enum.cs" />
     <Compile Include="GlobalVariables.cs" />
     <Compile Include="SessionHelper.cs" />
     <Compile Include="Config.cs" />

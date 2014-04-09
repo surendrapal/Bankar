@@ -40,7 +40,7 @@ namespace BM.DataAccess
                 throw new ArgumentNullException("modelBuilder");
 
             }
-
+            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
             modelBuilder.Entity<Ledger>().HasRequired(s => s.Group).WithMany(r => r.Ledgers).WillCascadeOnDelete(false);
 
             // Keep this:
@@ -98,5 +98,7 @@ namespace BM.DataAccess
             //.HasForeignKey(x => x.ParentId)
             //.WillCascadeOnDelete(true);
         }
+
+        public System.Data.Entity.DbSet<BM.Models.InterestParameter> InterestParameters { get; set; }
     }
 }
